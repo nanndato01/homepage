@@ -185,25 +185,6 @@
     display: block;
 }
 
-@media (max-width: 768px){
-    .card {
-        display: block;
-    }
-
-    .card__image {
-        width: 100%;
-        height: auto;
-        max-height: 200px;
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .card__image img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-}
 
 .card__body {
     display: flex;
@@ -259,4 +240,28 @@
 
 .card__meta-item:last-child {
     padding-right: 0;
+}
+
+@media (max-width: 768px){
+    .card {
+        display: block;
+    }
+
+    .card__image {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .card__image img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .card__title {
+        font-size: 1.25rem;
+    }
 }
