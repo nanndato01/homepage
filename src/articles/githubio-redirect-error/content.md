@@ -6,7 +6,7 @@
 
 # 解決方法
 
-## /vite.confic.ts
+## /vite.config.ts
 
 ```ts
 import ...
