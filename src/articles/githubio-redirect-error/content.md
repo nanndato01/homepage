@@ -6,6 +6,18 @@
 
 # 解決方法
 
+## vite.confic.ts
+
+```ts
+import ...
+
+export default defineConfig({
+  // ...
+  base: "/hoge/",
+  // ...
+})
+```
+
 ## /public/404.html
 
 ```html
@@ -15,9 +27,16 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    const path = window.location.pathname + window.location.search + window.location.hash;
+    const basename = '/hoge';
+    let path =
+      window.location.pathname +
+      window.location.search +
+      window.location.hash;
+    if (path.startsWith(basename)) {
+      path = path.slice(basename.length) || '/';
+    }
     sessionStorage.setItem('redirect', path);
-    window.location.replace('/');
+    window.location.replace(basename + '/');
   </script>
 </head>
 <body></body>
@@ -46,7 +65,7 @@ function RedirectHandler() {
 
 function App() {
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/hoge">
     <RedirectHandler />
         {/* <Route>など */}
     </BrowserRouter>
