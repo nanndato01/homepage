@@ -187,7 +187,7 @@ del {\r
 \r
 # 解決方法\r
 \r
-## vite.confic.ts\r
+## /vite.confic.ts\r
 \r
 \`\`\`ts\r
 import ...\r
