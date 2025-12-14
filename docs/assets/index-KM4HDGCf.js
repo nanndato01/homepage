@@ -187,6 +187,18 @@ del {\r
 \r
 # 解決方法\r
 \r
+## vite.confic.ts\r
+\r
+\`\`\`ts\r
+import ...\r
+\r
+export default defineConfig({\r
+  // ...\r
+  base: "/hoge/",\r
+  // ...\r
+})\r
+\`\`\`\r
+\r
 ## /public/404.html\r
 \r
 \`\`\`html\r
@@ -196,9 +208,16 @@ del {\r
   <meta charset="UTF-8">\r
   <title>Redirecting...</title>\r
   <script>\r
-    const path = window.location.pathname + window.location.search + window.location.hash;\r
+    const basename = '/hoge';\r
+    let path =\r
+      window.location.pathname +\r
+      window.location.search +\r
+      window.location.hash;\r
+    if (path.startsWith(basename)) {\r
+      path = path.slice(basename.length) || '/';\r
+    }\r
     sessionStorage.setItem('redirect', path);\r
-    window.location.replace('/');\r
+    window.location.replace(basename + '/');\r
   <\/script>\r
 </head>\r
 <body></body>\r
@@ -227,7 +246,7 @@ function RedirectHandler() {\r
 \r
 function App() {\r
   return(\r
-    <BrowserRouter>\r
+    <BrowserRouter basename="/hoge">\r
     <RedirectHandler />\r
         {/* <Route>など */}\r
     </BrowserRouter>\r
