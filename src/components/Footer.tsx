@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { externalLinks } from "../data/externalLinks";
 
 export default function Footer() {
     return (
@@ -8,15 +8,13 @@ export default function Footer() {
             </div>
 
             <ul className="p-0 m-0 list-none flex justify-center">
-                <li className="mx-4 border-b border-black">
-                    <Link to="https:/x.com/nanndato01">Twitter (X)</Link>
-                </li>
-                <li className="mx-4 border-b border-black">
-                    <Link to="https:/youtube.com/@nanndato01">Youtube</Link>
-                </li>
-                <li className="mx-4 border-b border-black">
-                    <Link to="https:/note.com/nanndato01">note</Link>
-                </li>
+                {externalLinks.map(item => (
+                    <li key={item.url} className="mx-4 border-b border-black">
+                        <a href={item.url} target="_blank" rel="noopener noreferrer">
+                            {item.label}
+                        </a>
+                    </li>
+                ))}
             </ul>
         </div>
     )
