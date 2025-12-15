@@ -4,6 +4,12 @@
 
 `/hoge/fuga/index.html`を探そうとして404エラーになります。
 
+# 環境
+
+* React  19.2.0
+* Vite  7.2.4
+* Tailwind CSS  4.1.17
+
 # 解決方法
 
 ## /vite.config.ts
