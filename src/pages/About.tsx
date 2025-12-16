@@ -1,8 +1,13 @@
+import { Helmet } from "react-helmet-async";
 import "../common.css";
 
 export default function About() {
     return (
         <div>
+            <Helmet>
+                <title>About | nanndato01のホームページ</title>
+            </Helmet>
+
             <h1 className="section-title text-3xl">About</h1>
             <div className="article-content">
                 <h2>自己紹介</h2>

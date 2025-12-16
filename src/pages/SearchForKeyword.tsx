@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -30,6 +31,10 @@ export default function SearchForKeyword() {
 
     return (
         <div>
+            <Helmet>
+                <title>{`${keyword} | nanndato01のホームページ`}</title>
+            </Helmet>
+
             <h1 className="section-title text-2xl">{`Search: ${keyword}`}</h1>
 
             < ArticleList articles={results} />

@@ -1,9 +1,14 @@
+import { Helmet } from "react-helmet-async";
 import Card from "../components/Card";
 import { externalLinks } from "../data/externalLinks";
 
 export default function Links() {
     return (
         <div>
+            <Helmet>
+                <title>Links | nanndato01のホームページ</title>
+            </Helmet>
+
             <h1 className="section-title text-3xl">Links</h1>
 
             <ul className="list-none p-0">

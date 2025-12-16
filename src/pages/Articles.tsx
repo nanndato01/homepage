@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import type { Article } from "../types/article";
 
 import { getAllArticles } from "../api/getAllArticles";
@@ -14,12 +15,18 @@ export default function Articles() {
     });
 
     return (
-        <div className="category-list">
-            <section className="category">
-                <h2 className="category__title section-title text-3xl">all articles</h2>
+        <div>
+            <Helmet>
+                <title>Articles | nanndato01のホームページ</title>
+            </Helmet>
 
-                < ArticleList articles={articles}/>
-            </section>
+            <div className="category-list">
+                <section className="category">
+                    <h2 className="category__title section-title text-3xl">all articles</h2>
+
+                    < ArticleList articles={articles}/>
+                </section>
+            </div>
         </div>
     );
 }
