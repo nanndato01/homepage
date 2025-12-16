@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import type { Article } from "../types/article";
 
 import { Link } from "react-router-dom";
@@ -7,25 +6,18 @@ import "../common.css";
 import ArticleList from "../components/Articlelist";
 
 export default function Home() {
-    const [articles, setArticles] = useState<Article[]>([]);
-    const [notices, setNotices] = useState<Article[]>([]);
+    const list: Article[] = getAllArticles()
+    .sort((a, b) => {
+        const dataA = a.published_at ? new Date(a.published_at).getTime() : 0;
+        const dataB = b.published_at ? new Date(b.published_at).getTime() : 0;
+        return dataB - dataA;
+    });
+    const n_list: Article[] = list.filter(a => {
+        return a.tags?.includes("notice");
+    });
+    const articles: Article[] = list.slice(0, 5);
+    const notices: Article[] = n_list.slice(0, 5);
 
-    useEffect(() => {
-        const list: Article[] = getAllArticles()
-        .sort((a, b) => {
-            const dataA = a.published_at ? new Date(a.published_at).getTime() : 0;
-            const dataB = b.published_at ? new Date(b.published_at).getTime() : 0;
-            return dataB - dataA;
-        });
-        const n_list: Article[] = list.filter(a => {
-            return a.tags?.includes("notice");
-        });
-        const mlist: Article[] = list.slice(0, 5);
-        const mn_list: Article[] = n_list.slice(0, 5);
-
-        setArticles(mlist);
-        setNotices(mn_list);
-    }, []);
     return (
         <div className="category-list">
             <section className="pb-[30px]">

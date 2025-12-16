@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import type { Article } from "../types/article";
 import { getAllArticles } from "../api/getAllArticles";
@@ -21,9 +22,7 @@ type TocItem = {
 export default function ArticleDetail() {
     const { slug } = useParams();
     const [article, setArticle] = useState<Article | null>(null);
-    const [recommendedArticles, setRecommendedArticles] = useState<Article[]>([]);
     const [content, setContent] = useState<string>("");
-    const [toc, setToc] = useState<TocItem[]>([]);
     const [tocOpen, setTocOpen] = useState(false);
 
     useEffect(() => {
@@ -33,52 +32,43 @@ export default function ArticleDetail() {
         setContent(content);
     }, [slug]);
 
-    useEffect(() => {
-        if(!article)return;
-        const all = getAllArticles();
-        const baseTags = new Set(article.tags ?? []);
-        const sorted = all
-        .filter(a => a.slug != article.slug)
-        .map(a => {
-            const tags = a.tags ?? [];
-            const matchCount = tags.filter(t => baseTags.has(t)).length;
-            return {article: a, matchCount};
-        })
-        .sort((a, b) => b.matchCount - a.matchCount)
-        .filter(item => item.matchCount > 0)
-        .map(item => item.article)
-        .slice(0, 5);
-        setRecommendedArticles(sorted);
-    }, [article]);
+    if(!article)return <p>article not found.</p>;
+    if(!content)return <p>content not found.</p>;
 
-    useEffect(() => {
-        if (!content) return;
+    const baseTags = new Set(article.tags ?? []);
+    const recommendedArticles = getAllArticles()
+    .filter(a => a.slug != article.slug)
+    .map(a => {
+        const tags = a.tags ?? [];
+        const matchCount = tags.filter(t => baseTags.has(t)).length;
+        return {article: a, matchCount};
+    })
+    .sort((a, b) => b.matchCount - a.matchCount)
+    .filter(item => item.matchCount > 0)
+    .map(item => item.article)
+    .slice(0, 5);
 
-        const lines = content.split("\n");
-        const tocItems: TocItem[] = [];
 
-        lines.forEach(line => {
-            const match = /^(#{1,3})\s+(.*)/.exec(line);
-            if (!match) return;
+    const lines = content.split("\n");
+    const toc: TocItem[] = [];
 
-            const level = match[1].length;
-            const text = match[2];
-            const id = text.replace(/\s+/g, "-");
+    lines.forEach(line => {
+        const match = /^(#{1,3})\s+(.*)/.exec(line);
+        if (!match) return;
 
-            tocItems.push({ id, text, level });
-        });
+        const level = match[1].length;
+        const text = match[2];
+        const id = text.replace(/\s+/g, "-");
 
-        setToc(tocItems);
-    }, [content]);
-
-    if (!article) return <p>Article not found.</p>;
+        toc.push({ id, text, level });
+    });
 
     return (
         <div>
-            <head>
+            <Helmet>
                 <title>{`${article.title} | nanndato01のホームページ`}</title>
                 <meta name="description" content={article.excerpt ?? ""} />
-            </head>
+            </Helmet>
 
             <h1 className="text-2xl md:text-3xl mb-4">{article.title}</h1>
 

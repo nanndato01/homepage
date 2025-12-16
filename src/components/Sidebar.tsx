@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link , useNavigate } from "react-router-dom";
 
 import { getAllArticles } from "../api/getAllArticles";
@@ -6,34 +6,25 @@ import type { Article } from "../types/article";
 import "../common.css";
 
 export default function Sidebar() {
-    const [articles, setArticles] = useState<Article[]>([]);
-    const [tags, setTags] = useState<string[]>([]);
     const [keyword, setkeyword] = useState("");
     const navigate = useNavigate();
 
+    const list: Article[] = getAllArticles()
+    .sort((a, b) => {
+        const dataA = a.published_at ? new Date(a.published_at).getTime() : 0;
+        const dataB = b.published_at ? new Date(b.published_at).getTime() : 0;
+        return dataB - dataA;
+    });
 
-    useEffect(() => {
-        const list: Article[] = getAllArticles()
-        .sort((a, b) => {
-            const dataA = a.published_at ? new Date(a.published_at).getTime() : 0;
-            const dataB = b.published_at ? new Date(b.published_at).getTime() : 0;
-            return dataB - dataA;
-        });
-
-        const allTags = list.flatMap(article => article.tags ?? []);
-        const uniqueTags = Array.from(new Set(allTags)).sort((a, b) => a.localeCompare(b));
-        const mlist: Article[] = list.slice(0, 5);
-        setArticles(mlist);
-        setTags(uniqueTags);
-    }, []);
+    const allTags = list.flatMap(article => article.tags ?? []);
+    const tags = Array.from(new Set(allTags)).sort((a, b) => a.localeCompare(b));
+    const articles: Article[] = list.slice(0, 5);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if(keyword.trim() === "")return;
         navigate(`/search/${keyword.trim()}`);
     }
-
-    if(!articles)return <p>Articles not found.</p>;
 
     return (
         <aside className="sidebar w-[250px] ml-2 pl-5 py-5 border-l border-b border-gray-400 hidden md:block">
