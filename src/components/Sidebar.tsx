@@ -27,7 +27,7 @@ export default function Sidebar() {
     }
 
     return (
-        <aside className="sidebar w-[250px] ml-2 pl-5 py-5 border-l border-b border-gray-400 hidden md:block">
+        <aside className="sidebar w-[250px] px-3 py-5 border-l border-b border-gray-400 hidden md:block">
             <ul className="sidebar__list m-0 p-0 list-none">
 
                 <li className="sidebar__item mb-5">
